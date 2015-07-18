@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>New Document</title>
+	<meta name="generator" content="EverEdit" />
+	<meta name="author" content="" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<style>
+		html, body, ul {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		#container{
+			width:410px;
+			overflow: hidden;
+			padding: 20px ;
+			margin: 0 auto;
+
+			height:100px;
+			position:relative;
+		}
+		#container ul{
+			height:100px;
+			width:1600px;
+			position:absolute;
+			left:20px;
+			top:20px;
+		}
+		#container li{
+			display:inline-block;
+		}
+		#container img{
+			width:100px;
+			height:100px;
+		}
+		#left, #right {
+			width: 20px;
+			height: 100px;
+			position: absolute;
+			cursor: pointer;
+			z-index: 1;
+		}
+		#left{
+			left:0;
+			background: url('./left.png') no-repeat center center #E7EFEF;
+		}
+		#right{
+			right:0;
+			background: url('./right.png') no-repeat center center #EFEFE7;
+
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="left"></div>
+		<ul>
+			<li><img src="84.jpg"></img></li>
+			<li><img src="85.jpg"></img></li>
+			<li><img src="86.jpg"></img></li>
+			<li><img src="85.jpg"></img></li>
+			<li><img src="84.jpg"></img></li>
+			<li><img src="86.jpg"></img></li>
+			<li><img src="87.jpg"></img></li>
+			<li><img src="85.jpg"></img></li>
+			<li><img src="84.jpg"></img></li>
+			<li><img src="87.jpg"></img></li>
+			<li><img src="84.jpg"></img></li>
+			<li><img src="85.jpg"></img></li>
+			<li><img src="86.jpg"></img></li>
+			<li><img src="85.jpg"></img></li>
+			<li><img src="84.jpg"></img></li>
+		</ul>
+		<div id="right"></div>
+	</div>
+</body>
+<script>
+	window.onload=function(){
+		var oUl=document.getElementsByTagName('ul')[0];
+		var left=document.getElementById("left");
+		var right=document.getElementById("right");
+		var timerUp = null;
+		var timerDown = null;
+		//left.onmouseover = right.onmouseover  = function(){
+			//this.style.backgroundColor = '#E7EFEF';
+		//}
+		//left.onmouseout = right.onmouseout  = function(){
+			//this.style.backgroundColor = '#EFEFE7';
+		//}
+		function getStyle(obj, attr){
+			return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+		}
+		
+		// 设置向上按钮按下的动作
+		right.onmousedown = function(){
+			var that=this;
+			timerUp = setInterval(function(){
+				if(parseInt(getStyle(oUl, 'left')) > -1135) {
+					that.style.backgroundColor = '#EFEFE7';
+					left.style.backgroundColor = '#EFEFE7';
+					oUl.style.left = parseInt(getStyle(oUl, 'left')) - 105 + 'px';
+				} else {
+					oUl.style.left = '-1135px';
+					
+				}
+			}, 100);
+		}
+
+		// 设置向上按钮抬起的动作
+		right.onmouseup = function(){
+			clearInterval(timerUp);
+			if (parseInt(getStyle(oUl, 'left')) <= -1135)
+			this.style.backgroundColor = '#E7EFEF';
+		}
+
+		// 设置向下按钮按下的动作
+		left.onmousedown = function(){
+			var that=this;
+			timerDown = setInterval(function(){
+				if (parseInt(getStyle(oUl, 'left')) < 20){
+					that.style.backgroundColor = '#EFEFE7';
+					right.style.backgroundColor = '#EFEFE7';
+					oUl.style.left = parseInt(getStyle(oUl, 'left')) + 105 + 'px';
+				} else {
+					oUl.style.left = '20px';
+				}
+				
+			}, 100);
+		}
+
+		// 设置向下按钮抬起的动作
+		left.onmouseup = function(){
+			clearInterval(timerDown);
+			if (parseInt(getStyle(oUl, 'left')) >=20)
+			this.style.backgroundColor = '#E7EFEF';
+		}
+		document.onmousewheel = fn;
+	
+		if (document.addEventListener) {
+			document.addEventListener('DOMMouseScroll', fn, false);
+		}
+		function fn(ev){
+			//var ev=event||window.event;
+			if(ev.detail>0||ev.wheelDelta<0)
+			{
+				if(parseInt(getStyle(oUl, 'left')) > -1135) {
+					right.style.backgroundColor = '#EFEFE7';
+					left.style.backgroundColor = '#EFEFE7';
+					oUl.style.left = parseInt(getStyle(oUl, 'left')) - 105 + 'px';
+				} else {
+					oUl.style.left = '-1135px';
+					right.style.backgroundColor = '#E7EFEF'
+					
+				}
+			} else{
+				if (parseInt(getStyle(oUl, 'left')) < 20){
+					right.style.backgroundColor = '#EFEFE7';
+					left.style.backgroundColor = '#EFEFE7';
+					oUl.style.left = parseInt(getStyle(oUl, 'left')) + 105 + 'px';
+				} else {
+					oUl.style.left = '20px';
+					left.style.backgroundColor = '#E7EFEF'
+				}
+				
+			}
+		}
+	}
+
+</script>
+</html>
